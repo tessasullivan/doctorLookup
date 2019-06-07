@@ -1,3 +1,16 @@
 /* body {
   background-color: #7FDBFF;
 } */
+h1 {
+  margin-bottom: 15px;
+}
+h2 {
+  font-size: 1em;
+}
+#doctorList {
+  display: none;
+}
+.span6 {
+  margin-left: 2%;
+  margin-bottom: 2%;
+}

@@ -9,15 +9,43 @@
 <body>
   <div class="container">
     <h1>Doctor Lookup</h1>
-    <div class='nameLookup'>
-      <form id='nameSearch'>
-        <label for="nameLookup">Enter a name</label>
-        <input id='nameLookup' type="text">
-        <button class='btn btn-info' id="nameLookupBtn">Search</button>
-      </form>
-    </div>
+
+    <div class="row">
+      <div class="span6">
+
+        <div id='nameLookupSection'>
+          
+          <h2>Search by name</h2>
+          <form id='nameSearch'>
+            <!-- <label for="nameLookup">Enter a name</label> -->
+            <input id='nameLookup' placeholder="Name" type="text">
+            <button class='btn btn-info btn-sm' id="nameLookupBtn">Search</button>
+            </form>
+          </div>
+        </div>
+        <div class="span6">
+
+          <div id="symptomLookupSection">
+            <h2>Search by symptom</h2>
+            <form id='symptomSearch'>
+              <!-- <label for='symptomLookup'>Enter Search Term</label> -->
+              <input id='symptomLookup' placeholder="symptom" type="text">
+              <button class='btn btn-info btn-sm' id="symptomLookupBtn">Search</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
     <div id='results'>
-      <ul id="doctorList"></ul>
+      <table id='doctorList'>
+        <tr id="tableHeader">
+          <th>Doctor/Practice Name</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>WebSite</th>
+          <th>Accepting patients</th>
+        </tr>
+      </table>
     </div>
   </div>
 </body>

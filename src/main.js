@@ -31,53 +31,60 @@ function displayDoctors(input){
   let doctorList = new Doctor();
   let promise = doctorList.getDoctor(input);
   
+  $('tr:not(#tableHeader)').remove();
+
   promise.then(function(response) {
     $("#doctorList").show();
-    $('tr:not(#tableHeader)').empty();
 
     let list = JSON.parse(response);
 
-    list.data.forEach(function(result) {
-      result.practices.forEach(function(practice) {
-        extractInfo(practice);
-      });    
-    });
-
-    doctors.forEach(function(doctor) {
-      $("#doctorList").append(`<tr><td>${doctor.name}</td><td>${doctor.street} ${doctor.street2} ${doctor.city} ${doctor.state} ${doctor.zip}</td>
+    if (list.data.length === 0) {
+      $("#doctorList").hide();
+      $("#results").append("There are no doctors which meet your criteria");
+    } else {
+      
+      list.data.forEach(function(result) {
+        result.practices.forEach(function(practice) {
+          extractInfo(practice);
+        });    
+      });
+      
+      doctors.forEach(function(doctor) {
+        $("#doctorList").append(`<tr><td>${doctor.name}</td><td>${doctor.street} ${doctor.street2} ${doctor.city} ${doctor.state} ${doctor.zip}</td>
         <td>${doctor.phone}</td><td>${doctor.website}</td><td>${doctor.accepting}</td>`);
-    });
+      });
+    }
   }, function(error) {
     $("#results").append(`There was an error processing your request: ${error}`);
   });  // end promise
+  doctors =[]; //Empty array so new search gives new results
 }
 
 
 
 $().ready(function(){
-  var searchType;
-  $("#nameLookupBtn, #symptomSearchBtn").click(function () {
-    if (this.id === 'nameLookupBtn') {
-      searchType = "name";
-    } else if (this.id === 'symptomSearchBtn') {
-      searchType = "symptom";
-    }
-  });
+  var input;
+  var searchString;
+
   $("#nameSearch").submit(function(event) {
     
     event.preventDefault();
-    let input;
-    let searchString;
-    if (searchType === "name") {
-      input = $("#nameLookup").val();
-      $("#nameLookup").val("");
-      searchString = `name=${input}`;
-    }
+    input = $("#nameLookup").val();
+    $("#nameLookup").val("");
 
+    searchString = `name=${input}`;
     displayDoctors(searchString);
   });
-  // $("#symptomSearch").submit(function() {
-  //   event.preventDefault();
-  //   let input
-  // })
+  
+  $("#symptomSearch").submit(function(event) {
+    
+    event.preventDefault();
+    input = $("#symptomLookup").val();
+    $("#symptomLookup").val("");
+
+    searchString = `query=${input}`;
+    displayDoctors(searchString);
+  });
+  
 });
+

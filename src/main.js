@@ -23,13 +23,13 @@ function extractInfo(practice){
     state: practice.visit_address.state,
     zip: practice.visit_address.zip,
     phone: practice.phones[0].number,
-    website: website,
+    website: `<a href="${website}">${website}</a>`,
     accepting: accepting});
 }
 
-function displayDoctorsByName(name){
+function displayDoctors(input){
   let doctorList = new Doctor();
-  let promise = doctorList.getDoctorByName(name);
+  let promise = doctorList.getDoctor(input);
   
   promise.then(function(response) {
     $("#doctorList").show();
@@ -50,15 +50,34 @@ function displayDoctorsByName(name){
   }, function(error) {
     $("#results").append(`There was an error processing your request: ${error}`);
   });  // end promise
-
 }
 
+
+
 $().ready(function(){
-  $("#nameSearch").submit(function() {
+  var searchType;
+  $("#nameLookupBtn, #symptomSearchBtn").click(function () {
+    if (this.id === 'nameLookupBtn') {
+      searchType = "name";
+    } else if (this.id === 'symptomSearchBtn') {
+      searchType = "symptom";
+    }
+  });
+  $("#nameSearch").submit(function(event) {
     
     event.preventDefault();
-    let inputtedName = $("#nameLookup").val();
-    $("#nameLookup").val("");
-    displayDoctorsByName(inputtedName);
-  }); 
+    let input;
+    let searchString;
+    if (searchType === "name") {
+      input = $("#nameLookup").val();
+      $("#nameLookup").val("");
+      searchString = `name=${input}`;
+    }
+
+    displayDoctors(searchString);
+  });
+  // $("#symptomSearch").submit(function() {
+  //   event.preventDefault();
+  //   let input
+  // })
 });
